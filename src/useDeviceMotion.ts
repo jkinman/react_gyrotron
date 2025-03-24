@@ -17,7 +17,7 @@ const throttle = <T extends (...args: any[]) => void>(
 };
 
 export const useDeviceMotion = (updateInterval = 100): MotionData => {
-  const [data, setData] = useState<MotionData>({
+  const initialState: MotionData = {
     x: null,
     y: null,
     z: null,
@@ -25,7 +25,16 @@ export const useDeviceMotion = (updateInterval = 100): MotionData => {
     beta: null,
     gamma: null,
     timestamp: 0,
-  });
+  };
+
+  // Synchronous API availability check using strict equality
+  if (window.DeviceMotionEvent === undefined) {
+    initialState.error = 'DeviceMotion API not supported';
+  } else if (window.DeviceOrientationEvent === undefined) {
+    initialState.error = 'DeviceOrientation API not supported';
+  }
+
+  const [data, setData] = useState<MotionData>(initialState);
   const isMounted = useRef(true);
 
   const updateMotionData = useCallback(
@@ -46,21 +55,7 @@ export const useDeviceMotion = (updateInterval = 100): MotionData => {
   );
 
   useEffect(() => {
-    // Check API support
-    if (!('DeviceMotionEvent' in window)) {
-      setData(prev => ({
-        ...prev,
-        error: 'DeviceMotion API not supported',
-      }));
-      return;
-    }
-    if (!('DeviceOrientationEvent' in window)) {
-      setData(prev => ({
-        ...prev,
-        error: 'DeviceOrientation API not supported',
-      }));
-      return;
-    }
+    if (data.error) return; // Skip if error is already set
 
     const requestPermission = async () => {
       let motionGranted = true;
@@ -96,6 +91,8 @@ export const useDeviceMotion = (updateInterval = 100): MotionData => {
 
     let motionListenerAdded = false;
     let orientationListenerAdded = false;
+    let cleanupMotionListener: (event: DeviceMotionEvent) => void;
+    let cleanupOrientationListener: (event: DeviceOrientationEvent) => void;
 
     const setupListeners = async () => {
       const hasPermission = await requestPermission();
@@ -107,6 +104,8 @@ export const useDeviceMotion = (updateInterval = 100): MotionData => {
         window.addEventListener('deviceorientation', handleOrientation);
         motionListenerAdded = true;
         orientationListenerAdded = true;
+        cleanupMotionListener = handleMotion;
+        cleanupOrientationListener = handleOrientation;
       }
     };
 
@@ -114,14 +113,14 @@ export const useDeviceMotion = (updateInterval = 100): MotionData => {
 
     return () => {
       isMounted.current = false;
-      if (motionListenerAdded) {
-        window.removeEventListener('devicemotion', () => {});
+      if (motionListenerAdded && cleanupMotionListener) {
+        window.removeEventListener('devicemotion', cleanupMotionListener);
       }
-      if (orientationListenerAdded) {
-        window.removeEventListener('deviceorientation', () => {});
+      if (orientationListenerAdded && cleanupOrientationListener) {
+        window.removeEventListener('deviceorientation', cleanupOrientationListener);
       }
     };
-  }, [updateMotionData]);
+  }, [updateMotionData, data.error]);
 
   return data;
 };
