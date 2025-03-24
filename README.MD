@@ -6,6 +6,7 @@ A TypeScript React hook for accessing accelerometer data on mobile devices.
 
 ```bash
 npm install react-accelerometer-hook
+```
 
 ## Usage
 
@@ -25,6 +26,7 @@ const MyComponent = () => {
     </div>
   );
 };
+```
 
 ## API
 useAccelerometer(updateInterval?: number)
