@@ -1,17 +1,17 @@
-# react-accelerometer-hook
+# react-gyrotron
 
 A TypeScript React hook for accessing accelerometer data on mobile devices.
 
 ## Installation
 
 ```bash
-npm install react-accelerometer-hook
+npm install react-gyrotron
 ```
 
 ## Usage
 
 ```typescript
-import { useAccelerometer } from 'react-accelerometer-hook';
+import { useAccelerometer } from 'react-gyrotron';
 
 const MyComponent = () => {
   const { x, y, z, error } = useAccelerometer(100); // Update every 100ms

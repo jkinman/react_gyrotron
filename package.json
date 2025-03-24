@@ -1,17 +1,18 @@
 {
-  "name": "react-accelerometer-hook",
+  "name": "react-gyrotron",
   "version": "1.0.0",
   "description": "A React hook for accessing accelerometer data on mobile devices",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "type": "module", 
+  "type": "module",
   "scripts": {
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "dev": "cd gyrotron_sample && npm run dev"
   },
-  "keywords": ["react", "hook", "accelerometer", "devicemotion", "typescript"],
+  "keywords": ["react", "hook", "accelerometer", "devicemotion", "typescript", "gyrotron"],
   "author": "Your Name",
   "license": "MIT",
   "peerDependencies": {
@@ -19,7 +20,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-node_resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/react": "^18.2.0",
     "react": "^18.2.0",
