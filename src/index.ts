@@ -1,2 +1,2 @@
-export { useAccelerometer } from './useAccelerometer';
-export type { AccelerometerData } from './types';
+export { useDeviceMotion } from './useDeviceMotion';
+export type { MotionData } from './types';
