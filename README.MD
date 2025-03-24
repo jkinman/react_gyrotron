@@ -7,9 +7,9 @@ A TypeScript React hook for accessing accelerometer data on mobile devices.
 ```bash
 npm install react-accelerometer-hook
 
-Usage
-typescript
+## Usage
 
+```typescript
 import { useAccelerometer } from 'react-accelerometer-hook';
 
 const MyComponent = () => {
@@ -26,13 +26,13 @@ const MyComponent = () => {
   );
 };
 
-API
+## API
 useAccelerometer(updateInterval?: number)
 updateInterval: Optional number (in ms) to throttle updates (default: 100ms)
 
 Returns: AccelerometerData object with x, y, z, timestamp, and optional error
 
-Notes
+## Notes
 Requires HTTPS for DeviceMotion API
 
 iOS 13+ needs permission request
