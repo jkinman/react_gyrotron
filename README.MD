@@ -11,7 +11,7 @@ npm install react-gyrotron
 ## Usage
 
 ```typescript
-mport { useDeviceMotion } from 'react-gyrotron';
+import { useDeviceMotion } from 'react-gyrotron';
 
 const MyComponent = () => {
   const { x, y, z, alpha, beta, gamma, error } = useDeviceMotion(100);
@@ -28,7 +28,8 @@ const MyComponent = () => {
       <p>Gamma: {gamma?.toFixed(2)}°</p>
     </div>
   );
-};```
+};
+```
 
 ## API
 useDeviceMotion(updateInterval?: number)
